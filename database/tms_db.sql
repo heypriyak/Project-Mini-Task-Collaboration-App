@@ -1,5 +1,6 @@
--- Create the database
-CREATE DATABASE IF NOT EXISTS tms_db;
+-- Create and use the database
+DROP DATABASE IF EXISTS tms_db;
+CREATE DATABASE tms_db;
 USE tms_db;
 
 -- Users table
@@ -22,15 +23,31 @@ CREATE TABLE tasks (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Insert default admin user
+-- Insert admin users
 INSERT INTO users (name, email, password, role) VALUES
-('Admin', 'admin@admin.com', '$2y$10$KxWdYJz1IwEx8pKxZYgHCOKnP0uNHxUxPRkW9DbM4QRF0zYREy0Eq', 'admin');
+('System Admin', 'admin@admin.com', '$2y$10$KxWdYJz1IwEx8pKxZYgHCOKnP0uNHxUxPRkW9DbM4QRF0zYREy0Eq', 'admin'),
+('Project Manager', 'manager@admin.com', '$2y$10$KxWdYJz1IwEx8pKxZYgHCOKnP0uNHxUxPRkW9DbM4QRF0zYREy0Eq', 'admin');
 
--- Insert sample user
+-- Insert sample users
 INSERT INTO users (name, email, password, role) VALUES
-('Test User', 'user@example.com', '$2y$10$51XwX0Ry.QgX/fvVVrwlZOZJZeG7LXx4pKXX.QdWGNnwKYk.3Ay8.', 'user');
+('John Doe', 'john@example.com', '$2y$10$51XwX0Ry.QgX/fvVVrwlZOZJZeG7LXx4pKXX.QdWGNnwKYk.3Ay8.', 'user'),
+('Jane Smith', 'jane@example.com', '$2y$10$51XwX0Ry.QgX/fvVVrwlZOZJZeG7LXx4pKXX.QdWGNnwKYk.3Ay8.', 'user'),
+('Mike Johnson', 'mike@example.com', '$2y$10$51XwX0Ry.QgX/fvVVrwlZOZJZeG7LXx4pKXX.QdWGNnwKYk.3Ay8.', 'user');
 
--- Insert sample tasks
+-- Insert sample tasks for John Doe
 INSERT INTO tasks (user_id, title, deadline, priority, status) VALUES
-(2, 'Sample Task 1', DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY), 'high', 'pending'),
-(2, 'Sample Task 2', DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY), 'medium', 'in_progress');
+(3, 'Complete Project Proposal', DATE_ADD(CURRENT_DATE, INTERVAL 5 DAY), 'high', 'pending'),
+(3, 'Review Code Changes', DATE_ADD(CURRENT_DATE, INTERVAL 2 DAY), 'medium', 'in_progress'),
+(3, 'Update Documentation', DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY), 'low', 'pending');
+
+-- Insert sample tasks for Jane Smith
+INSERT INTO tasks (user_id, title, deadline, priority, status) VALUES
+(4, 'Design Database Schema', DATE_ADD(CURRENT_DATE, INTERVAL 3 DAY), 'high', 'in_progress'),
+(4, 'Implement User Authentication', DATE_ADD(CURRENT_DATE, INTERVAL 6 DAY), 'high', 'pending'),
+(4, 'Write Unit Tests', DATE_ADD(CURRENT_DATE, INTERVAL 4 DAY), 'medium', 'pending');
+
+-- Insert sample tasks for Mike Johnson
+INSERT INTO tasks (user_id, title, deadline, priority, status) VALUES
+(5, 'Fix Bug #123', DATE_ADD(CURRENT_DATE, INTERVAL 1 DAY), 'high', 'in_progress'),
+(5, 'Optimize Database Queries', DATE_ADD(CURRENT_DATE, INTERVAL 8 DAY), 'medium', 'pending'),
+(5, 'Deploy to Staging', DATE_ADD(CURRENT_DATE, INTERVAL 5 DAY), 'high', 'pending');
